@@ -1,0 +1,175 @@
+class Node
+{
+    int data;
+    Node next;
+    Node prev;
+    Node(int data)
+    {
+        this.data=data;
+    }
+}
+public class cDoublyLL
+{
+    Node head;
+    public void insertAtBeg(Node newnode)
+    {
+        if(head==null)
+        {
+            head=newnode;
+            newnode.prev=newnode;
+            newnode.next=head;
+        }
+        else
+        {
+            Node temp = head;
+            while(temp.next!=head)
+            {
+                temp=temp.next;
+            }
+            newnode.next=head;
+            newnode.prev=head.prev;
+            head.prev=newnode;
+            head=newnode;
+            temp.next=newnode;
+        }
+    }
+    public void insertAtLast(Node newnode)
+    {
+        if(head==null)
+        {
+            insertAtBeg(newnode);
+        }
+        else
+        {
+            Node temp = head;
+            while(temp.next!=head)
+            {
+                temp=temp.next;
+            }
+            head.prev=newnode;
+            temp.next=newnode;
+            newnode.prev=temp;
+            newnode.next=head;
+        }
+    }
+    public void insertAtPos(int pos, Node newnode)
+    {
+        if(pos==1)
+        {
+            insertAtBeg(newnode);
+        }
+        else if (pos>count()+1)
+        {
+            System.out.println("Out of Range");
+        }
+        else
+        {
+            Node temp = head;
+            for (int i = 0; i <pos-2 ; i++)
+            {
+                temp = temp .next;
+            }
+            temp.next.next.prev=newnode;
+            newnode.next=temp.next;
+            temp.next=newnode;
+            newnode.prev=temp;
+        }
+    }
+    public void deleteAtBeg()
+    {
+        if (head==null)
+        {
+            System.out.println("Can't delete-No Element");
+        }
+        else
+        {
+            Node temp=head;
+            while(temp.next!=head)
+            {
+                temp=temp.next;
+            }
+            head=head.next;
+            temp.next=head;
+            head.prev=temp;
+        }
+    }
+    public void deleteAtLast()
+    {
+        if(head==null)
+        {
+            System.out.println("Can't delete-No Element");
+        }
+        else
+        {
+            Node temp = head;
+            while(temp.next.next!=head)
+            {
+                temp = temp.next;
+            }
+            head.prev=temp;
+            temp.next=head;
+        }
+    }
+    public void deleteAtPos(int pos)
+    {
+        if(pos==1)
+        {
+            deleteAtBeg();
+        }
+        else if(pos>count())
+        {
+            System.out.println("Invalid Position");
+        }
+        else
+        {
+            Node temp = head;
+            for (int i = 0; i <pos-2 ; i++)
+            {
+                temp = temp.next;
+            }
+            temp.next=temp.next.next;
+            temp.next.next=temp;
+        }
+    }
+    public  int count()
+    {
+        Node temp = head;
+        int c=0;
+        while(temp.next!=head)
+        {
+            c++;
+            temp = temp.next;
+        }
+        return c+1;
+    }
+    public void display()
+    {
+        if (head==null)
+        {
+            System.out.println("list is empty");
+        }
+        else
+        {
+            Node temp = head;
+            while(temp.next!=head)
+            {
+                System.out.println(temp.data);
+                temp =temp.next;
+            }
+            System.out.println(temp.data);
+        }
+    }
+    public static void main(String[] args)
+    {
+        cDoublyLL obj = new cDoublyLL();
+        obj.insertAtBeg(new Node(5));
+        obj.insertAtBeg(new Node(11));
+        obj.insertAtLast(new Node(1));
+        obj.insertAtPos(3,new Node(13));
+        obj.insertAtPos(5,new Node(52));
+        obj.deleteAtBeg();
+        obj.deleteAtLast();
+        obj.deleteAtPos(3);
+        obj.display();
+    }
+}
